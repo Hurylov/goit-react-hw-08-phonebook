@@ -10,7 +10,7 @@ export const WeatherWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   width: 450px;
-  background-color: rgba(226, 226, 226, 0.4);
+  background-color: rgba(226, 226, 226, 0.2);
   text-align: center;
   box-shadow: rgb(33 33 33) 0px 2px 10px 1px;
   padding: 20px;

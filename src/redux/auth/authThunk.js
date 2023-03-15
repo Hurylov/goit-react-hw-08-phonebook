@@ -20,8 +20,6 @@ export const logIn = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const result = await api.getLogIn(data);
-      const token = result.token; // Отримуємо токен з результату запиту
-      localStorage.setItem('token', token); // Зберігаємо токен у локальному сховищі
       return result;
     } catch ({ response }) {
       const { status, statusText } = response;
@@ -44,15 +42,13 @@ export const logOut = createAsyncThunk(
     }
   }
 );
+
 export const current = createAsyncThunk(
   'auth/current',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
-      const token = localStorage.getItem('token'); // Отримуємо токен з локального сховища
-      if (!token) {
-        throw new Error('No token found in local storage'); // Якщо токен не знайдено, генеруємо помилку
-      }
-      const result = await api.getCurrent(token);
+      const { auth } = getState();
+      const result = await api.getCurrent(auth.token);
       return result;
     } catch ({ response }) {
       const { status, statusText } = response;
