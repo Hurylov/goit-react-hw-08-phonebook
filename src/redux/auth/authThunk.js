@@ -46,9 +46,14 @@ export const logOut = createAsyncThunk(
 export const current = createAsyncThunk(
   'auth/current',
   async (_, { rejectWithValue, getState }) => {
+    const { token } = getState().auth;
+    
+    if (!token) {
+      return rejectWithValue('Unable to fetch user');
+    }
+
     try {
-      const { auth } = getState();
-      const result = await api.getCurrent(auth.token);
+      const result = await api.getCurrent(token);
       return result;
     } catch ({ response }) {
       const { status, statusText } = response;
